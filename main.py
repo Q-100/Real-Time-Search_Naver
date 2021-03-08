@@ -7,23 +7,36 @@ import re
 hds = {"User-Agent": "Mozilla/5.0"}
 url = "https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001&listType=title&date=20210309"
 url2 = "https://news.naver.com/main/list.nhn?mode=LPOD&sid2=140&sid1=001&mid=sec&oid=001&isYeonhapFlash=Y&date=20210309"
-urls = ["https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001&listType=title&date=20210309",
-        "https://news.naver.com/main/list.nhn?mode=LPOD&sid2=140&sid1=001&mid=sec&oid=001&isYeonhapFlash=Y&date=20210309",
+urls = ["https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001&listType=title&date=20210309", # 네이버 속보
+        "https://news.naver.com/main/list.nhn?mode=LPOD&sid2=140&sid1=001&mid=sec&oid=001&isYeonhapFlash=Y&date=20210309", # 연합뉴스 속보
+        "https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=105", # IT/과학
+        "https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=100", # 정치속보
+        "https://news.naver.com/main/ranking/popularMemo.nhn" # 랭킹뉴스 댓글 많은 순
         ]
 banned = ['',
           "Virus", "Outbreak", "Chicago", "Schools", "Baseball", "utbreak", "emen", "ong", "FRANCE",
           'INTERNATIONAL', 'DAY', 'POLAND', 'ABORTION', 'LAW', 'PROTEST', 'WOMENS', 'ITALY', 'EQUATORIAL', 'GUINEA',
-          'EXPLOSION', 'MACRON', 'ECONOMY', 'EU', 'START', 'UP', 'epaselect', 'BELGIUM', 'PARLIAMENT',
+          'EXPLOSION', 'MACRON', 'ECONOMY', 'EU', 'START', 'UP', 'epaselect', 'BELGIUM', 'PARLIAMENT', 'Peru',
+          'Belgium',
+          'WOMEN',
           ]
-
-baseUrl = urllib.request.Request(url2, headers=hds)
+#https://news.nate.com/rank/updown 네이트 업다운
+#https://news.zum.com/front?c=06 줌 뉴스
 # date = "".join(date.isoformat(date.today()).split("-"))
 # url = baseUrl + urllib.parse.quote_plus(date)
-html = urllib.request.urlopen(baseUrl)
-
-soup = BeautifulSoup(html, "html.parser")
 search_list = []
-for i in soup.find_all(class_="nclicks(fls.list)"):
-    tmp = [word for word in re.sub('[^a-zA-Z0-9가-힣]', " ", i.text).split(" ") if word not in banned]
-    search_list += tmp
-print(Counter(search_list).most_common(10))
+for link in urls:
+    baseUrl = urllib.request.Request(link, headers=hds)
+    html = urllib.request.urlopen(baseUrl)
+    soup = BeautifulSoup(html, "html.parser")
+    if link == "https://news.naver.com/main/ranking/popularMemo.nhn":
+        for i in soup.find_all(class_="list_title nclicks('RBP.cmtnws')"):
+            tmp = [word for word in re.sub('[^a-zA-Z0-9가-힣]', " ", i.text).split(" ") if word not in banned]
+            search_list += tmp
+    else:
+        for i in soup.find_all(class_="nclicks(fls.list)"):
+            tmp = [word for word in re.sub('[^a-zA-Z0-9가-힣]', " ", i.text).split(" ") if word not in banned]
+            search_list += tmp
+
+for i in range(1,11):
+    print(i,"위 :",Counter(search_list).most_common(20)[i][0])
