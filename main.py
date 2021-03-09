@@ -5,13 +5,12 @@ from collections import Counter
 import re
 
 hds = {"User-Agent": "Mozilla/5.0"}
-url = "https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001&listType=title&date=20210309"
-url2 = "https://news.naver.com/main/list.nhn?mode=LPOD&sid2=140&sid1=001&mid=sec&oid=001&isYeonhapFlash=Y&date=20210309"
-urls = ["https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001&listType=title&date=20210309", # 네이버 속보
-        "https://news.naver.com/main/list.nhn?mode=LPOD&sid2=140&sid1=001&mid=sec&oid=001&isYeonhapFlash=Y&date=20210309", # 연합뉴스 속보
-        "https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=105", # IT/과학
-        "https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=100", # 정치속보
-        "https://news.naver.com/main/ranking/popularMemo.nhn" # 랭킹뉴스 댓글 많은 순
+urls = ["https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001&listType=title&date=20210309",  # 네이버 속보
+        "https://news.naver.com/main/list.nhn?mode=LPOD&sid2=140&sid1=001&mid=sec&oid=001&isYeonhapFlash=Y&date=20210309",
+        # 연합뉴스 속보
+        "https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=105",  # IT/과학
+        "https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=100",  # 정치속보
+        "https://news.naver.com/main/ranking/popularMemo.nhn"  # 랭킹뉴스 댓글 많은 순
         ]
 banned = ['',
           "Virus", "Outbreak", "Chicago", "Schools", "Baseball", "utbreak", "emen", "ong", "FRANCE",
@@ -20,8 +19,8 @@ banned = ['',
           'Belgium',
           'WOMEN',
           ]
-#https://news.nate.com/rank/updown 네이트 업다운
-#https://news.zum.com/front?c=06 줌 뉴스
+# https://news.nate.com/rank/updown 네이트 업다운
+# https://news.zum.com/front?c=06 줌 뉴스
 # date = "".join(date.isoformat(date.today()).split("-"))
 # url = baseUrl + urllib.parse.quote_plus(date)
 search_list = []
@@ -38,5 +37,5 @@ for link in urls:
             tmp = [word for word in re.sub('[^a-zA-Z0-9가-힣]', " ", i.text).split(" ") if word not in banned]
             search_list += tmp
 
-for i in range(1,11):
-    print(i,"위 :",Counter(search_list).most_common(20)[i][0])
+for i in range(10):
+    print(i+1, "위 :", Counter(search_list).most_common(20)[i][0])
