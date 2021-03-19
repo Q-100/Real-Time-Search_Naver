@@ -40,3 +40,4 @@ for link in urls:
 for i in range(10):
     print(i+1, "위 :", Counter(search_list).most_common(20)[i][0])
 
+
