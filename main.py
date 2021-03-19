@@ -5,8 +5,8 @@ from collections import Counter
 import re
 
 hds = {"User-Agent": "Mozilla/5.0"}
-urls = ["https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001&listType=title&date=20210316",  # 네이버 속보
-        "https://news.naver.com/main/list.nhn?mode=LPOD&sid2=140&sid1=001&mid=sec&oid=001&isYeonhapFlash=Y&date=20210316",
+urls = ["https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001&listType=title&date=20210319",  # 네이버 속보
+        "https://news.naver.com/main/list.nhn?mode=LPOD&sid2=140&sid1=001&mid=sec&oid=001&isYeonhapFlash=Y&date=20210319",
         # 연합뉴스 속보
         "https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=105",  # IT/과학
         "https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=100",  # 정치속보
@@ -39,3 +39,4 @@ for link in urls:
 
 for i in range(10):
     print(i+1, "위 :", Counter(search_list).most_common(20)[i][0])
+
